@@ -43,7 +43,6 @@ while True:
         
     if enemy_posX < -100: 
         enemy_posX = 800
-        enemy_posY = 250
     screen.blit(enemy, (enemy_posX, enemy_posY))
 
     display.update()
