@@ -2,10 +2,6 @@ import pygame, math
 from sys import exit
 import random
 
-f = open("scores.txt", "w")
-f.write("0")
-f.close()
-
 sWidth, sHeight = 1200, 600
 clock = pygame.time.Clock()
 
