@@ -91,10 +91,10 @@ while True:
         keys = pygame.key.get_pressed()
         if keys[pygame.K_a] or keys[pygame.K_LEFT]:
             if hor > -20:
-                hor -= 10
+                hor -= 5
         if keys[pygame.K_d] or keys[pygame.K_RIGHT]:
             if hor < 1050:
-                hor += 10
+                hor += 5
         if not(isJump):
             if keys[pygame.K_SPACE] or keys[pygame.K_UP] or keys[pygame.K_w]:
                 isJump = True
@@ -149,11 +149,11 @@ while True:
                 enemyCount += 0.1
             
         if n == 2:
-            if (hor + playerWidth  >= enemyX[0] and hor <= enemyX[1] + 65) and (pHeight + playerHeight >= enemyH + 10 and pHeight <= pHeight + 80):
+            if (hor + playerWidth  >= enemyX[0] and hor <= enemyX[1] + 60) and (pHeight + playerHeight >= enemyH + 10 and pHeight <= pHeight + 80):
                 loss = True
                 run = 1
         else:
-            if (hor + playerWidth >= enemyX[0] and hor <= enemyX[0] + 90) and (pHeight + playerHeight >= enemyH + 10 and pHeight <= pHeight + 80):
+            if (hor + playerWidth >= enemyX[0] and hor <= enemyX[0] + 60) and (pHeight + playerHeight >= enemyH + 10 and pHeight <= pHeight + 80):
                 loss = True
                 run = 1
             
