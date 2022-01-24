@@ -205,7 +205,7 @@ while True:
 
         f = open("scores.txt", "r")
         high = int(f.read())
-        highScore = font.render(f"Highest score is [{high}]", True, (255,255,255))
+        highScore = font.render(f"Highest Score [{high}]", True, (255,255,255))
         screen.blit(highScore, (425, 275))
         f.close()
 
