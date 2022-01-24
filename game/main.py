@@ -1,5 +1,6 @@
 import pygame, math
 from sys import exit
+import random
 
 sWidth, sHeight = 1200, 600
 clock = pygame.time.Clock()
@@ -53,10 +54,16 @@ x = 0
 runningCount = 0
 hor = 100
 isJump = False
-jumpCount = 10
+jumpCount = 15
 pHeight = 2 * (sHeight /3) + 10
 score = 0
 run = 0
+enemyPres = 0
+enemyCount = 0
+enemyX = [900, 980]
+enemyH = 2 * (sHeight /3) + 20
+enemyC = 0
+n = random.randint(0, 2)
 
 while True:
 
@@ -83,12 +90,12 @@ while True:
             if keys[pygame.K_SPACE] or keys[pygame.K_UP] or keys[pygame.K_w]:
                 isJump = True
         else:
-            if jumpCount >= -10:
+            if jumpCount >= -15:
                 pHeight -=  jumpCount*2
                 jumpCount -= 1
             else: 
                 isJump = False
-                jumpCount = 10
+                jumpCount = 15
         
         
         screen.blit(playerArr[math.floor(runningCount)], (hor, pHeight))
@@ -101,8 +108,29 @@ while True:
         scoreTXT = font.render(f'Score: {math.floor(score)}', True, (255,255,255))
         screen.blit(scoreTXT, (500, 10))
         score += 0.25
-
         
+
+        if not(enemyPres):
+            
+            for i in range(n):
+                screen.blit(cell[math.floor(enemyCount)], (enemyX[i], enemyH))
+            enemyPres = 1
+            n = random.randint(0, 2)
+
+        else:
+
+            for i in range(2):
+                print(enemyH)
+                screen.blit(cell[math.floor(enemyCount)], (enemyX[i], enemyH))
+                if math.floor(enemyCount) >= 9:
+                    enemyCount = 0
+                else:
+                    enemyCount += 0.15
+                if enemyX[i] <= -80:
+                    enemyPres = 0
+                    enemyX = 1200
+                else:
+                    enemyX[i] -= 5
 
     else:
 
