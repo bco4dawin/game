@@ -2,6 +2,10 @@ import pygame, math
 from sys import exit
 import random
 
+f = open("scores.txt", "w")
+f.write("0")
+f.close()
+
 sWidth, sHeight = 1200, 600
 clock = pygame.time.Clock()
 
@@ -17,22 +21,22 @@ screen = pygame.display.set_mode((sWidth, sHeight))
 pygame.display.set_caption("Dungeon Echos")
 
 #font
-font = pygame.font.Font("game/Pixeltype.ttf", 50)
+font = pygame.font.Font("Pixeltype.ttf", 50)
 
 
 #Player 
 playerArr = []
 for i in range(6):
-    img = pygame.image.load(f'game/Assets/Adventurer/Individual Sprites/adventurer-run-0{i}.png')
+    img = pygame.image.load(f'Assets/Adventurer/Individual Sprites/adventurer-run-0{i}.png')
     rect = img.get_rect()
     img = pygame.transform.scale(img, (rect.width * 3, rect.height * 3))
     playerArr.append(img)
 
-idle = pygame.image.load(f'game/Assets/Adventurer/Individual Sprites/adventurer-idle-00.png')
+idle = pygame.image.load(f'Assets/Adventurer/Individual Sprites/adventurer-idle-00.png')
 rect = idle.get_rect()
 idle = pygame.transform.scale(idle, (rect.width * 3, rect.height * 3))
 
-sheet = pygame.image.load('game/Assets/wizard.png').convert_alpha()
+sheet = pygame.image.load('Assets/wizard.png').convert_alpha()
 cell = []
 
 for i in range(10):
@@ -52,13 +56,14 @@ for i in range(len(cell)):
 
 
 
-bg = pygame.image.load('game/Assets/bg.png').convert()
+bg = pygame.image.load('Assets/bg.png').convert()
 rect = bg.get_rect()
 bg = pygame.transform.scale(bg, (1200, 600))
 x = 0
 
 runningCount = 0
 hor = 100
+dt = 0
 playerWidth = (playerArr[0].get_rect().width) / 2
 playerHeight = 3 * ((playerArr[0].get_rect().height) / 4) - 15
 isJump = False
@@ -76,6 +81,7 @@ n = random.randint(1, 2)
 
 while True:
 
+
     global obstacles
     obstacles = []
     events()
@@ -85,16 +91,16 @@ while True:
         screen.blit(bg, (rel_x  - bg.get_rect().width,0))
         if rel_x < sWidth:
             screen.blit(bg, (rel_x, 0))
-        x -= 10
+        x -= 0.3 * dt
         
         #Controls
         keys = pygame.key.get_pressed()
         if keys[pygame.K_a] or keys[pygame.K_LEFT]:
             if hor > -20:
-                hor -= 5
+                hor -= 0.5 * dt
         if keys[pygame.K_d] or keys[pygame.K_RIGHT]:
             if hor < 1050:
-                hor += 5
+                hor += 0.5 * dt
         if not(isJump):
             if keys[pygame.K_SPACE] or keys[pygame.K_UP] or keys[pygame.K_w]:
                 isJump = True
@@ -134,14 +140,14 @@ while True:
                     enemyX[1] = 1280
 
                 else:
-                    enemyX[i] -= 10
+                    enemyX[i] -= 12
             else:
                 if enemyX[0] <= -80:
                     enemyX[0] = 1200
                     enemyX[1] = 1280
 
                 else:
-                    enemyX[i] -= 10
+                    enemyX[i] -= 12
 
             if enemyCount >= 9.85:
                 enemyCount = 0
@@ -149,16 +155,26 @@ while True:
                 enemyCount += 0.1
             
         if n == 2:
-            if (hor + playerWidth  >= enemyX[0] and hor <= enemyX[1] + 60) and (pHeight + playerHeight >= enemyH + 10 and pHeight <= pHeight + 80):
+            if (hor + playerWidth  >= enemyX[0] and hor <= enemyX[1]) and (pHeight + playerHeight >= enemyH + 10 and pHeight <= pHeight + 80):
                 loss = True
                 run = 1
         else:
-            if (hor + playerWidth >= enemyX[0] and hor <= enemyX[0] + 60) and (pHeight + playerHeight >= enemyH + 10 and pHeight <= pHeight + 80):
+            if (hor + playerWidth >= enemyX[0] and hor <= enemyX[0]) and (pHeight + playerHeight >= enemyH + 10 and pHeight <= pHeight + 80):
                 loss = True
                 run = 1
             
         if enemyX[0] == 1200 :
             n = random.randint(1, 2)
+
+        f = open("scores.txt", "r")
+        high = int(f.read())
+        f.close()
+        if score >= high:
+            f = open("scores.txt", "w")
+            f.write(str(math.floor(score)))
+            f.close()
+        else:
+            pass
             
 
     elif loss == True:
@@ -168,11 +184,11 @@ while True:
         isJump = False
         jumpCount = 12
         pHeight = 2 * (sHeight /3) + 10
-        score = 0
         enemyCount = 0
         enemyX = [900, 980]
         enemyH = 2 * (sHeight /3)
         enemyC = 0
+        dt = 0
         screen.blit(bg, (0,0))
         screen.blit(idle, (hor, pHeight))
         cover = pygame.Surface((1200, 600))
@@ -183,10 +199,21 @@ while True:
         startTXT = font.render("You Lost, Press [ENTER] To Restart", True, (255,0,0))
         screen.blit(startTXT, (325, 175))
 
+        cScore = font.render(f"Current Score [{math.floor(score)}]", True, (255,255,255))
+        screen.blit(cScore, (425, 225))
+
+
+        f = open("scores.txt", "r")
+        high = int(f.read())
+        highScore = font.render(f"Highest score is [{high}]", True, (255,255,255))
+        screen.blit(highScore, (425, 275))
+        f.close()
+
         keys = pygame.key.get_pressed()
         if keys[pygame.K_RETURN]:
             run = 0
             loss = False
+            score = 0
     else:
 
         screen.blit(bg, (0,0))
@@ -205,4 +232,4 @@ while True:
 
 
     pygame.display.update()
-    clock.tick(70)
+    dt = clock.tick(60)
