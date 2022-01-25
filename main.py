@@ -12,6 +12,8 @@ def events():
             exit()
 
 pygame.init()
+pygame.mixer.init()
+
 
 screen = pygame.display.set_mode((sWidth, sHeight))
 pygame.display.set_caption("Dungeon Echos")
@@ -75,6 +77,8 @@ enemyC = 0
 loss = False
 n = random.randint(1, 2)
 
+pygame.mixer.Channel(0).set_volume(0.1)
+pygame.mixer.Channel(0).play(pygame.mixer.Sound('music.mp3'), -1)
 while True:
 
 
@@ -100,6 +104,8 @@ while True:
         if not(isJump):
             if keys[pygame.K_SPACE] or keys[pygame.K_UP] or keys[pygame.K_w]:
                 isJump = True
+                pygame.mixer.Channel(1).set_volume(0.5)
+                pygame.mixer.Channel(1).play(pygame.mixer.Sound('jump.mp3'), 0)
         else:
             if jumpCount >= -12:
                 pHeight -=  jumpCount*2
