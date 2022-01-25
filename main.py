@@ -104,7 +104,7 @@ while True:
         if not(isJump):
             if keys[pygame.K_SPACE] or keys[pygame.K_UP] or keys[pygame.K_w]:
                 isJump = True
-                pygame.mixer.Channel(1).set_volume(0.5)
+                pygame.mixer.Channel(1).set_volume(0.2)
                 pygame.mixer.Channel(1).play(pygame.mixer.Sound('jump.mp3'), 0)
         else:
             if jumpCount >= -12:
@@ -168,6 +168,10 @@ while True:
         if enemyX[0] == 1200 :
             n = random.randint(1, 2)
 
+            
+
+    elif loss == True:
+
         f = open("scores.txt", "r")
         high = int(f.read())
         f.close()
@@ -177,9 +181,6 @@ while True:
             f.close()
         else:
             pass
-            
-
-    elif loss == True:
         enemyPres = 1
         runningCount = 0
         hor = 100
