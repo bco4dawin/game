@@ -71,8 +71,8 @@ score = 0
 run = 1
 enemyPres = 1
 enemyCount = 0
-enemyX = [1000, 1080]
-enemyH = 2 * (sHeight /3)
+enemyX = [1000, 1160]
+enemyH = [2 * (sHeight /3), 2 * (sHeight /3) - 175]
 enemyC = 0
 loss = False
 n = random.randint(1, 2)
@@ -134,19 +134,24 @@ while True:
                     newC = enemyCount + 4
             else: 
                 newC = enemyCount
-            screen.blit(cell[math.floor(newC)], (enemyX[i], enemyH))
+            screen.blit(cell[math.floor(newC)], (enemyX[i], enemyH[i]))
             
             if n == 2:
                 if enemyX[1] <= -160:
                     enemyX[0] = 1200
-                    enemyX[1] = 1280
+                    enemyX[1] = 1360
+                    num = random.choice([0, 1])
+                    if num == 0:
+                        enemyH[1] = enemyH[0]
+                    else:
+                        enemyH[1] = enemyH[0] - 175
 
                 else:
                     enemyX[i] -= 12
             else:
                 if enemyX[0] <= -80:
                     enemyX[0] = 1200
-                    enemyX[1] = 1280
+                    enemyX[1] = 1360
 
                 else:
                     enemyX[i] -= 12
@@ -157,11 +162,11 @@ while True:
                 enemyCount += 0.1
             
         if n == 2:
-            if (hor + playerWidth  >= enemyX[0] and hor <= enemyX[1]) and (pHeight + playerHeight >= enemyH + 10 and pHeight <= pHeight + 80):
+            if (hor + playerWidth  >= enemyX[0] and hor <= enemyX[0] + 60) and (pHeight + playerHeight >= enemyH[0] + 10 and pHeight <= pHeight + 80) or ((hor  >= enemyX[1] - 70 and hor <= enemyX[1] + 80) and (pHeight >= enemyH[1] and pHeight <= enemyH[1] + 70)):
                 loss = True
                 run = 1
         else:
-            if (hor + playerWidth >= enemyX[0] and hor <= enemyX[0]) and (pHeight + playerHeight >= enemyH + 10 and pHeight <= pHeight + 80):
+            if (hor + playerWidth >= enemyX[0] and hor <= enemyX[0] + 40) and (pHeight + playerHeight >= enemyH[0] + 10 and pHeight <= pHeight + 80):
                 loss = True
                 run = 1
             
@@ -188,8 +193,8 @@ while True:
         jumpCount = 12
         pHeight = 2 * (sHeight /3) + 10
         enemyCount = 0
-        enemyX = [900, 980]
-        enemyH = 2 * (sHeight /3)
+        enemyX = [900, 1060]
+        enemyH = [2 * (sHeight /3), 2 * (sHeight /3) - 175]
         enemyC = 0
         dt = 0
         screen.blit(bg, (0,0))
@@ -208,7 +213,7 @@ while True:
 
         f = open("scores.txt", "r")
         high = int(f.read())
-        highScore = font.render(f"Highest Score [{high}]", True, (255,255,255))
+        highScore = font.render(f"High Score [{high}]", True, (255,255,255))
         screen.blit(highScore, (425, 275))
         f.close()
 
