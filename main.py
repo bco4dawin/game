@@ -71,7 +71,7 @@ score = 0
 run = 1
 enemyPres = 1
 enemyCount = 0
-enemyX = [1000, 1160]
+enemyX = [1000, 1100]
 enemyH = [2 * (sHeight /3), 2 * (sHeight /3) - 175]
 enemyC = 0
 loss = False
@@ -139,7 +139,7 @@ while True:
             if n == 2:
                 if enemyX[1] <= -160:
                     enemyX[0] = 1200
-                    enemyX[1] = 1360
+                    enemyX[1] = 1400
                     num = random.choice([0, 1])
                     if num == 0:
                         enemyH[1] = enemyH[0]
@@ -151,7 +151,7 @@ while True:
             else:
                 if enemyX[0] <= -80:
                     enemyX[0] = 1200
-                    enemyX[1] = 1360
+                    enemyX[1] = 1400
 
                 else:
                     enemyX[i] -= 12
@@ -166,7 +166,7 @@ while True:
                 loss = True
                 run = 1
         else:
-            if (hor + playerWidth >= enemyX[0] and hor <= enemyX[0] + 40) and (pHeight + playerHeight >= enemyH[0] + 10 and pHeight <= pHeight + 80):
+            if (hor + playerWidth >= enemyX[0] and hor <= enemyX[0] + 30) and (pHeight + playerHeight >= enemyH[0] + 10 and pHeight <= pHeight + 80):
                 loss = True
                 run = 1
             
@@ -193,7 +193,7 @@ while True:
         jumpCount = 12
         pHeight = 2 * (sHeight /3) + 10
         enemyCount = 0
-        enemyX = [900, 1060]
+        enemyX = [900, 1100]
         enemyH = [2 * (sHeight /3), 2 * (sHeight /3) - 175]
         enemyC = 0
         dt = 0
